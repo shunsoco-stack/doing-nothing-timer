@@ -1,0 +1,8 @@
+.git/
+.env*
+.artifacts/
+coverage/
+test-results/
+playwright-report/
+*.log
+*.tsbuildinfo

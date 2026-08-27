@@ -1,0 +1,40 @@
+{
+  "name": "doing-nothing-timer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "何もしない時間を、ちゃんと記録する。",
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1 --port 3047",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1 --port 3047",
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run",
+    "secret-scan": "node scripts/secret-scan.mjs",
+    "assets": "node scripts/generate-assets.mjs"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "dependencies": {
+    "@vercel/analytics": "2.0.1",
+    "lucide-react": "1.28.0",
+    "next": "16.3.3",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.3",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "24.10.1",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.3.3",
+    "jsdom": "^30.0.1",
+    "sharp": "0.35.4",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3",
+    "vitest": "4.1.10"
+  }
+}
