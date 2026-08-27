@@ -91,11 +91,11 @@ Next.jsの本番ビルドを `http://127.0.0.1:3048` で起動して確認しま
 
 | 画面 | 保存先 | 確認内容 |
 | --- | --- | --- |
-| 初期画面 | `public/screenshots/01-home.png` | 記録前、0から始まる初期状態 |
-| モード選択 | `public/screenshots/02-modes.png` | 厳格／ゆるモードの選択画面 |
-| 記録中 | `public/screenshots/03-recording.png` | 厳格モードの経過00:20 |
-| 厳格モード失敗画面 | `public/screenshots/04-strict-ended.png` | キー入力で01:18に終了。「小休止」「無の入口」を解除 |
-| 週間記録・実績 | `public/screenshots/05-records.png` | 今週の1分18秒と実績2/4を確認 |
+| 初期画面 | `public/screenshots/01-home.jpg` | 記録前、0から始まる初期状態 |
+| モード選択 | `public/screenshots/02-modes.jpg` | 厳格／ゆるモードの選択画面 |
+| 記録中 | `public/screenshots/03-recording.jpg` | 厳格モードの経過00:20 |
+| 厳格モード失敗画面 | `public/screenshots/04-strict-ended.jpg` | キー入力で01:18に終了。「小休止」「無の入口」を解除 |
+| 週間記録・実績 | `public/screenshots/05-records.jpg` | 今週の1分18秒と実績2/4を確認 |
 
 <!-- SCREENSHOT_EVIDENCE_END -->
 

@@ -76,23 +76,23 @@ Apple風の静かなUIを目指し、あたたかな白、セージグリーン�
 
 ### 1. 初期画面
 
-![何もしない記録の初期画面](public/screenshots/01-home.png)
+![何もしない記録の初期画面](public/screenshots/01-home.jpg)
 
 ### 2. モード選択
 
-![厳格モードとゆるモードを選ぶ画面](public/screenshots/02-modes.png)
+![厳格モードとゆるモードを選ぶ画面](public/screenshots/02-modes.jpg)
 
 ### 3. 記録中
 
-![経過時間を大きく表示した記録中の画面](public/screenshots/03-recording.png)
+![経過時間を大きく表示した記録中の画面](public/screenshots/03-recording.jpg)
 
 ### 4. 厳格モード失敗画面
 
-![終了した操作の種類と記録を表示する画面](public/screenshots/04-strict-ended.png)
+![終了した操作の種類と記録を表示する画面](public/screenshots/04-strict-ended.jpg)
 
 ### 5. 週間記録・実績
 
-![週間記録と実績の一覧画面](public/screenshots/05-records.png)
+![週間記録と実績の一覧画面](public/screenshots/05-records.jpg)
 
 ## ローカル開発
 
