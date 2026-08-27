@@ -2,7 +2,9 @@
 
 確認日：2026年8月27日（日本時間）
 
-この文書は、確認済みのローカル検証・サービス設定と、未確認の公開作業を分けて記録するものです。Vercelの本番デプロイ、公開UIの実ブラウザー確認、スクリーンショット5枚の撮影・保存・目視確認は完了しました。GitHubの初回pushとAnalyticsの有効化・集計は後述の状態です。未確認の項目は完了として扱っていません。
+この文書は、確認済みの検証と残るサービス上の制約を分けて記録するものです。GitHubへのソース公開、CI、Vercel本番公開、公開UI・モバイル表示の確認、スクリーンショット5枚の保存・目視確認は完了しました。残件はAnalyticsの有効化・プラン制限と、任意のGit自動デプロイ連携です。
+
+本書の実装検証対象はコミット `67e0753` です。後続のドキュメントだけの更新は、この検証対象を変更しません。[対象実装の成功CI](https://github.com/shunsoco-stack/doing-nothing-timer/actions/runs/33070513976)
 
 ## ローカル自動検証：確認済み
 
@@ -27,20 +29,24 @@ Secret Scanは既知の秘密情報パターンの補助検査です。バイナ
 
 | 項目 | 状況 |
 | --- | --- |
-| GitHubリポジトリ | [shunsoco-stack/doing-nothing-timer](https://github.com/shunsoco-stack/doing-nothing-timer) をpublicで作成済み |
-| GitHub Secret Scanning | 有効化済み |
+| GitHubリポジトリ | [shunsoco-stack/doing-nothing-timer](https://github.com/shunsoco-stack/doing-nothing-timer) にソースコードを公開済み |
+| GitHub Secret Scanning | 有効化済み。確認時点の未解決アラート0件 |
 | GitHub Push Protection | 有効化済み |
-| ソースコードの初回push | 未実施 |
-| GitHub Actions | 初回push前のため実行結果は未確認 |
-| Vercelデプロイ | 初回の本番ビルド・デプロイが成功。状態は `READY` |
+| ソースコードのpush | `main` と `origin/main` が実装コミット `67e0753` で一致することを確認済み |
+| GitHub Actions | [run 33070513976](https://github.com/shunsoco-stack/doing-nothing-timer/actions/runs/33070513976) が成功。lint・型検査・203件のテスト・Secret Scan・ビルドを確認 |
+| Vercelデプロイ | 最終の本番デプロイが成功。状態は `READY` |
 | 公開URL | [doing-nothing-timer.vercel.app](https://doing-nothing-timer.vercel.app)。HTTP応答と実ブラウザーでのUIを確認済み |
-| 公開環境での主要操作 | 初期画面、モード選択、厳格モードの計測、キー入力による終了、週間記録・実績の表示を確認済み |
+| 公開環境での主要操作 | 両モード、再読込からの復元、手動終了、厳格モードのキー／マウスによる終了、週間記録・実績を確認済み |
+| 公開モバイル表示 | 幅320px／390px、ライト／ダークを確認。横方向のはみ出しなし |
 | 公開アプリのスクリーンショット | 指定5画面を公開URLから撮影し、保存・目視確認済み |
 | 実ブラウザーのオフライン起動・継続・保存・再読込 | ローカル本番ビルドで確認済み。下記の検証条件を参照 |
+| Gitからの自動デプロイ | 未接続であることを設定情報で確認。通常のCLI接続操作では連携できず、現在はCLIで公開する運用 |
 
 <!-- DEPLOYMENT_EVIDENCE_END -->
 
-初回デプロイの識別情報：`dpl_GEHqgfJFaQgshamtKySVMVzTBCkG`。[デプロイ固有URL](https://doing-nothing-timer-omajbh068-shunsoco-stacks-projects.vercel.app)
+最終確認した本番デプロイ：`dpl_3ivTnBgz4KnNgBuM3EDfQYCUu7CN`。[デプロイ固有URL](https://doing-nothing-timer-n63mvclm2-shunsoco-stacks-projects.vercel.app)
+
+GitHub Actionsは品質検証のみを行います。Gitへのpushだけで自動公開される設定にはなっていません。更新公開の手順は [README](../README.md) の「公開・更新方法」を参照してください。
 
 ### 公開HTTP・アセット検証：確認済み
 
@@ -51,11 +57,21 @@ Secret Scanは既知の秘密情報パターンの補助検査です。バイナ
 | メタデータ | title、canonical、manifest、OG、Twitter、robots、sitemapの整合を確認 |
 | 画像寸法 | OG 1200×630、標準アイコン192×192・512×512、maskable 512×512、Apple用180×180を確認 |
 | 配信アセットの同一性 | 8アセットのSHA-256がローカルファイルと一致 |
+| 公開スクリーンショット | 5 URLすべてHTTP 200・`image/jpeg`。SHA-256がローカルの画像と一致 |
 | セキュリティヘッダー | `X-Content-Type-Options: nosniff`、`X-Frame-Options: DENY`、Referrer Policy、Permissions Policy、CSP、HSTSを確認 |
 | 本番CSP | `unsafe-eval` を含まないことを確認 |
 | Service Workerの配信 | `no-store`、許可スコープ、Service Worker用のCSPを確認 |
 
 HTTP検証の成功は、Analyticsのイベント収集や全端末での挙動を保証するものではありません。
+
+### 公開UI・モバイル表示の追加検証：確認済み
+
+- ゆるモード開始後、再読み込みで経過29秒の記録が復元され、そのまま計測が続くことを確認。マウス操作でも終了しないことを確認。
+- 経過48秒で手動終了し、再読み込み後も本日の最長01:18、累計・今週02:06、記録2件が残ることを確認。この値は当該検証時点のものです。
+- 厳格モードはマウス移動で終了し、「マウスを操作しました」と理由を表示することを確認。キー入力による終了はスクリーンショット撮影時にも確認済み。
+- 実ブラウザーの幅320px／390pxでライト／ダーク表示を確認し、横方向のはみ出しがないことを確認。
+- 最終デプロイ後、ヘッダーの4ボタンすべての高さが44pxであることを確認。
+- 確認したブラウザー操作中のエラー・警告は0件。
 
 ### 実ブラウザーのオフライン検証：確認済み
 
@@ -76,7 +92,7 @@ Next.jsの本番ビルドを `http://127.0.0.1:3048` で起動して確認しま
 | `session_start` / `session_end` / `achievement_unlock` / `result_share` | SDK実装を確認済み。送信項目は [README](../README.md#analytics) に明記 |
 | 送信データの制限 | 終了理由・打鍵内容・記録ID・利用者ID・正確な日時・記録一覧は送信しない実装 |
 | 追跡拒否設定 | DNT／GPCを尊重し、イベント送信を抑止する実装 |
-| 基本Web Analyticsの有効化 | 未完了。所有者本人によるVercelダッシュボードでの確認操作が必要。操作を依頼済み |
+| 基本Web Analyticsの有効化 | 未完了。`enabledAt`・`disabledAt` ともに `null`。所有者本人によるVercelダッシュボードでの確認操作が必要で、操作を依頼済み |
 | ページビューの本番収集・表示 | 未確認 |
 | カスタムイベントの本番集計 | Hobbyプランでは利用不可。SDK実装をもって集計済みとは扱わない |
 | 有料プランへの変更・有料契約 | 行っていない |
@@ -89,6 +105,8 @@ Next.jsの本番ビルドを `http://127.0.0.1:3048` で起動して確認しま
 
 5枚とも [公開URL](https://doing-nothing-timer.vercel.app) を実ブラウザーで操作して撮影しました。保存・目視確認が完了し、READMEに埋め込んでいます。記録はUI操作のみで作成しており、localStorageの直接編集や時刻の偽装は行っていません。
 
+撮影時の出典は初回デプロイ `dpl_GEHqgfJFaQgshamtKySVMVzTBCkG` です。[撮影時のデプロイURL](https://doing-nothing-timer-omajbh068-shunsoco-stacks-projects.vercel.app)。画像の実形式に合わせ、5枚とも拡張子を `.jpg` に統一しました。画像本体のバイト列は変更していません。最終公開の5画像はHTTP 200・`image/jpeg` で配信され、ローカル画像とSHA-256が一致することを確認しています。
+
 | 画面 | 保存先 | 確認内容 |
 | --- | --- | --- |
 | 初期画面 | `public/screenshots/01-home.jpg` | 記録前、0から始まる初期状態 |
@@ -99,11 +117,10 @@ Next.jsの本番ビルドを `http://127.0.0.1:3048` で起動して確認しま
 
 <!-- SCREENSHOT_EVIDENCE_END -->
 
-## 残る確認項目
+## 残る制約・任意の設定
 
-- GitHubへの初回pushと公開したコミットの識別情報。
-- GitHub Actionsの実行結果。未確認の場合はそのまま未確認と記載。
-- 追加の公開モバイル確認。現時点で実施結果は未確定。
-- 基本Web Analyticsが本人の操作で有効化されたかどうか。有効化待ちの場合は制約を残す。
+- 基本Web Analytics：所有者本人による有効化待ち。本番のページビュー収集・表示は未確認。
+- カスタムイベント集計：Hobbyでは利用不可。Pro／Enterpriseの機能であり、有料プランへ変更していません。
+- Git自動デプロイ連携：任意の未設定項目。CLIでの本番公開は正常で、アプリの利用には影響しません。
 
 Tsukuttaへの掲載状況は引き続き「未掲載」です。掲載用コピーは [publish-copy.md](publish-copy.md) に分けています。

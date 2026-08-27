@@ -7,9 +7,11 @@
 - アプリ名：何もしない記録
 - リポジトリ名：doing-nothing-timer
 - アプリURL（本番公開・実ブラウザー確認済み）：https://doing-nothing-timer.vercel.app
-- GitHub（公開リポジトリ作成済み・初回push待ち）：https://github.com/shunsoco-stack/doing-nothing-timer
+- GitHub（ソース公開済み）：https://github.com/shunsoco-stack/doing-nothing-timer
 
-ローカルの最終lint・型検査・ビルド、Vitest 203件、Secret Scanは成功し、`npm audit` の検出脆弱性は0件です。Vercelの本番デプロイ、公開UIの実ブラウザー確認、スクリーンショット5枚の撮影・保存・目視確認も完了しました。公開HTTP応答、メタデータ、アイコン、セキュリティヘッダーも確認済みです。GitHubのSecret ScanningとPush Protectionは有効化済みですが、ソースの初回pushはまだです。確認範囲は [verification.md](verification.md) を参照してください。
+ローカルの最終lint・型検査・ビルド、Vitest 203件、Secret Scanは成功し、`npm audit` の検出脆弱性は0件です。実装コミット `67e0753` をGitHubへ公開し、[GitHub Actionsも成功](https://github.com/shunsoco-stack/doing-nothing-timer/actions/runs/33070513976)しました。Secret ScanningとPush Protectionは有効で、未解決アラートは0件です。
+
+Vercel本番公開、公開UIと320px／390pxの表示確認、スクリーンショット5枚の撮影・保存・目視確認も完了しています。確認範囲とAnalyticsなどの制約は [verification.md](verification.md) を参照してください。
 
 <!-- PUBLICATION_STATUS_END -->
 
@@ -67,7 +69,9 @@ https://doing-nothing-timer.vercel.app
 
 ## 掲載時の注意
 
-アプリの公開確認とスクリーンショット5枚の撮影は完了しています。GitHubの初回pushは未完了のため、コードも公開済みと紹介する場合はpush完了を確認してください。検証結果はローカルの自動検証と公開環境の確認を区別し、まだ行っていない確認を「完了」とは記載しないでください。
+アプリ・ソースコードの公開、CI成功、スクリーンショット5枚の撮影は確認済みです。検証結果はローカルの自動検証と公開環境の確認を区別し、まだ行っていない確認を「完了」とは記載しないでください。
+
+VercelへのGit自動連携は未接続です。現在はCLIで公開する運用のため、「GitHubへのpushで自動デプロイ」とは紹介しないでください。
 
 Vercel Analyticsの開始・終了・実績解除・共有イベントはSDKに実装済みですが、基本Web Analyticsの有効化は所有者本人のダッシュボードでの確認操作待ちです。さらに公開先のHobbyプランではカスタムイベントの集計を利用できません。「本番のAnalytics収集・集計まで確認済み」とは記載しないでください。プラン変更や有料契約は行っていません。[Vercel公式ドキュメント](https://vercel.com/docs/analytics/custom-events)
 

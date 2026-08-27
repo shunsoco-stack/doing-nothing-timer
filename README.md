@@ -9,16 +9,18 @@
 <!-- RELEASE_STATUS_BEGIN: 公開確認と実行結果に合わせて更新する -->
 
 - アプリURL（本番公開・実ブラウザー確認済み）：[doing-nothing-timer.vercel.app](https://doing-nothing-timer.vercel.app)
-- GitHub（公開リポジトリ作成済み・初回push待ち）：[shunsoco-stack/doing-nothing-timer](https://github.com/shunsoco-stack/doing-nothing-timer)
+- GitHub（ソース公開済み）：[shunsoco-stack/doing-nothing-timer](https://github.com/shunsoco-stack/doing-nothing-timer)
 - `lint` / `typecheck` / `build`：成功。Vitestは5ファイル・203件すべて成功。
 - Secret Scan：成功。確認時点で45テキストファイルを検査し、6バイナリ／大容量ファイルを除外。`npm audit` の検出脆弱性は0件。
-- GitHub Secret Scanning / Push Protection：有効化済み。
+- GitHub Secret Scanning / Push Protection：有効化済み。確認時点の未解決Secret Scanningアラートは0件。
+- 実装コミット `67e0753` の [GitHub Actions](https://github.com/shunsoco-stack/doing-nothing-timer/actions/runs/33070513976)：lint・型検査・203件のテスト・Secret Scan・ビルドが成功。
 - ローカル本番ビルドの実ブラウザーで、配信元への接続不可時の起動・計測継続・保存・再読込を確認済み。
 - 公開アプリのスクリーンショット5枚：撮影・保存・目視確認済み。下記に掲載しています。
 - 公開URL・静的アセットのHTTP応答、メタデータ、アイコン、セキュリティヘッダーを確認済み。
+- 公開環境の幅320px／390px、ライト／ダーク表示、再読込後の計測継続・保存を確認済み。
 - Vercel Analytics：SDK実装済み。基本Web Analyticsの有効化は所有者本人の確認操作待ちです。加えて、Hobbyプランではカスタムイベントを集計できません。[Analyticsの制約](#analytics)を参照してください。
 
-検証の範囲と未確認項目は [docs/verification.md](docs/verification.md) にまとめています。ローカルの最終検証、Vercel本番デプロイ、公開画面の操作確認・撮影を完了しています。GitHubの初回pushとAnalyticsの有効化・集計は別途記載の状態です。
+検証対象と証跡は [docs/verification.md](docs/verification.md) にまとめています。残る制約はAnalyticsの有効化・プラン制限と、任意のGit自動デプロイ連携です。現在はVercel CLIで更新公開します。下記の「公開・更新方法」を参照してください。
 
 <!-- RELEASE_STATUS_END -->
 
@@ -128,6 +130,25 @@ npm run build
 - ESLint / Vitest
 
 Next.jsの実装を変更する際は、`AGENTS.md` とインストール済みの `node_modules/next/dist/docs/` を確認してください。
+
+## 公開・更新方法
+
+VercelへのGit連携は未接続です。GitHubへのpushやCI成功だけでは自動公開されません。アプリのCLI公開は正常に動作しています。
+
+新しい開発環境では、このリポジトリ直下でログイン・リンクを行い、既存の `doing-nothing-timer` プロジェクトを選択してください。
+
+```bash
+npx vercel login
+npx vercel link
+```
+
+上記の検証コマンドを通したあと、本番へ公開します。
+
+```bash
+npx vercel deploy --prod
+```
+
+Git連携を後から有効にすることは任意です。現在のGitHub Actionsは品質検証用で、Vercelへのデプロイ処理は含みません。
 
 ## 保存・プライバシー・オフライン
 
