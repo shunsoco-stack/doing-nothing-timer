@@ -17,6 +17,15 @@ const contentSecurityPolicy = [
   "frame-ancestors 'none'",
 ].join("; ");
 
+// AdMax rotates its delivery domains. Keep that network exception on the
+// static guide only; the timer and Service Worker retain their existing CSP.
+const introductionContentSecurityPolicy = [
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'none'",
+  "frame-ancestors 'none'",
+].join("; ");
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   // This application is independent, even when checked out inside another repo.
@@ -45,6 +54,15 @@ const nextConfig: NextConfig = {
           {
             key: "Content-Security-Policy",
             value: "default-src 'none'; script-src 'self'; connect-src 'self'",
+          },
+        ],
+      },
+      {
+        source: "/about.html",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: introductionContentSecurityPolicy,
           },
         ],
       },

@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="何もしていない時間を、そっと記録する小さなWebアプリ。何もしない記録の使い方、モード、端末内の保存について。"
+    />
+    <title>紹介と使い方 | 何もしない記録</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --background: #f7f8f5;
+        --surface: #fdfefa;
+        --foreground: #29342c;
+        --secondary: #616c63;
+        --border: #e0e5dc;
+        --accent: #405b43;
+        --accent-soft: #e9efe4;
+        --button-text: #ffffff;
+        --ring: #5b7d50;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --background: #151a17;
+          --surface: #1c231e;
+          --foreground: #e6ebe3;
+          --secondary: #b0bbaf;
+          --border: #323c32;
+          --accent: #b0c9a2;
+          --accent-soft: #263426;
+          --button-text: #1b291b;
+          --ring: #bdcdb1;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--background);
+        color: var(--foreground);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Hiragino Kaku Gothic ProN", "Yu Gothic UI", Meiryo, sans-serif;
+        font-size: 15px;
+        line-height: 1.9;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: var(--accent);
+        text-underline-offset: 0.2em;
+      }
+      a:focus-visible {
+        outline: 3px solid var(--ring);
+        outline-offset: 5px;
+      }
+      .skip-link {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 1;
+        padding: 10px 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        transform: translateY(-200%);
+      }
+      .skip-link:focus {
+        transform: none;
+      }
+      .site-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        width: min(880px, calc(100% - 40px));
+        margin: 0 auto;
+        min-height: 100px;
+        border-bottom: 1px solid var(--border);
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--foreground);
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        text-decoration: none;
+        min-height: 44px;
+      }
+      .brand-mark {
+        width: 23px;
+        height: 23px;
+        flex: 0 0 auto;
+        border: 1px solid var(--accent);
+        border-radius: 50%;
+      }
+      .header-return {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+      main {
+        width: min(640px, calc(100% - 20px));
+        margin: 0 auto;
+        padding: 60px 0 0;
+      }
+      .hero,
+      .content-section {
+        padding-inline: 10px;
+      }
+      .eyebrow {
+        margin: 0;
+        color: var(--accent);
+        font-size: 11px;
+        letter-spacing: 0.16em;
+      }
+      h1 {
+        margin: 20px 0;
+        font-size: clamp(29px, 5vw, 42px);
+        font-weight: 550;
+        line-height: 1.65;
+        letter-spacing: -0.045em;
+      }
+      .hero > p:last-child {
+        margin: 0;
+        color: var(--secondary);
+      }
+      .content-section {
+        margin-top: 42px;
+        padding-top: 30px;
+        border-top: 1px solid var(--border);
+      }
+      h2 {
+        margin: 0 0 14px;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.65;
+      }
+      h3 {
+        margin: 0 0 6px;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.7;
+      }
+      p {
+        margin: 12px 0 0;
+      }
+      .content-section p,
+      .steps {
+        color: var(--secondary);
+      }
+      .steps {
+        margin: 0;
+        padding-left: 1.5em;
+      }
+      .steps li {
+        padding-left: 4px;
+        margin-top: 10px;
+      }
+      .steps li:first-child {
+        margin-top: 0;
+      }
+      .steps strong {
+        color: var(--foreground);
+        font-weight: 550;
+      }
+      .mode-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+      .mode-card {
+        padding: 22px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+      }
+      .mode-card p {
+        margin-top: 8px;
+        font-size: 14px;
+      }
+      .recommendation {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--accent);
+        font-size: 11px;
+      }
+      .note {
+        font-size: 13px;
+      }
+      .ad-section {
+        margin-top: 48px;
+        padding-top: 30px;
+        border-top: 1px solid var(--border);
+        text-align: center;
+        line-height: 1;
+      }
+      .ad-label {
+        margin: 0 0 12px;
+        color: var(--secondary);
+        font-size: 12px;
+        line-height: 1.7;
+      }
+      .admax-ads {
+        vertical-align: top;
+        background: var(--surface);
+      }
+      .return-section {
+        margin-top: 48px;
+        padding: 0 10px;
+        text-align: center;
+      }
+      .return-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 52px;
+        max-width: 100%;
+        padding: 12px 28px;
+        border-radius: 999px;
+        background: var(--accent);
+        color: var(--button-text);
+        font-size: 14px;
+        font-weight: 550;
+        text-decoration: none;
+      }
+      .return-link:hover {
+        box-shadow: 0 0 0 4px var(--accent-soft);
+      }
+      .return-section p {
+        color: var(--secondary);
+        font-size: 12px;
+      }
+      .site-footer {
+        width: min(880px, calc(100% - 40px));
+        margin: 56px auto 0;
+        padding: 24px 0;
+        border-top: 1px solid var(--border);
+        color: var(--secondary);
+        text-align: center;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+      }
+      @media (max-width: 600px) {
+        .site-header {
+          gap: 10px;
+          min-height: 84px;
+        }
+        .brand {
+          gap: 8px;
+          font-size: 12px;
+        }
+        .brand-mark {
+          width: 19px;
+          height: 19px;
+        }
+        .header-return {
+          font-size: 11px;
+        }
+        main {
+          padding-top: 38px;
+        }
+        .mode-grid {
+          grid-template-columns: 1fr;
+        }
+        .mode-card {
+          padding: 18px;
+        }
+        .content-section {
+          margin-top: 32px;
+          padding-top: 24px;
+        }
+      }
+      @media (prefers-contrast: more) {
+        :root {
+          --secondary: var(--foreground);
+          --border: var(--foreground);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">本文へ</a>
+    <header class="site-header">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>何もしない記録</span>
+      </a>
+      <a class="header-return" href="/">タイマーに戻る</a>
+    </header>
+
+    <main id="main-content">
+      <div class="hero">
+        <p class="eyebrow">紹介と使い方</p>
+        <h1>何もしない時間に、<br />まるをつけよう。</h1>
+        <p>
+          これは、がんばるためのアプリではありません。<br />
+          何もしていない時間を、そっと記録する場所です。
+        </p>
+      </div>
+
+      <section class="content-section" aria-labelledby="how-to-title">
+        <h2 id="how-to-title">使い方は、シンプルに</h2>
+        <ol class="steps">
+          <li><strong>モードを選ぶ。</strong>今日の気分に合わせて、ゆるモードか厳格モードを選びます。</li>
+          <li><strong>「何もしないを開始」を押す。</strong>あとは、のんびりと過ごします。</li>
+          <li><strong>終わったら、記録を眺める。</strong>結果と実績を確認できます。記録中のひとことは、モード選択で表示をオフにできます。</li>
+        </ol>
+      </section>
+
+      <section class="content-section" aria-labelledby="modes-title">
+        <h2 id="modes-title">自分に合ったモードで</h2>
+        <div class="mode-grid">
+          <div class="mode-card">
+            <span class="recommendation">おすすめ</span>
+            <h3>ゆるモード</h3>
+            <p>ちょっと動いても、大丈夫。終了ボタンを押すまで計測します。タブを離れても続きます。</p>
+          </div>
+          <div class="mode-card">
+            <h3>厳格モード</h3>
+            <p>3秒の準備後に開始。タップ・マウス移動やスクロール・キー入力・タブやウィンドウの移動で終了します。</p>
+          </div>
+        </div>
+        <p class="note">読み上げやキーボード操作を使う方には、ゆるモードがおすすめです。厳格モードの3秒の準備時間は、記録に含まれません。</p>
+      </section>
+
+      <section class="content-section" aria-labelledby="storage-title">
+        <h2 id="storage-title">記録は、あなたの端末に</h2>
+        <p>アカウントは不要。記録はブラウザ内に保存され、別の端末とは同期されません。ブラウザのデータ削除で失われるため、CSVで控えを残せます。</p>
+        <p>「記録と実績」では、本日の最長記録、累計時間、週間記録を確認できます。CSVには記録の日時と時間が含まれるため、共有する前に内容を確認してください。</p>
+      </section>
+
+      <section class="content-section" aria-labelledby="pwa-title">
+        <h2 id="pwa-title">いつもの場所に、余白を</h2>
+        <p>ブラウザのメニューからホーム画面に追加できます。一度アプリを読み込み、オフラインの準備が整えば、ネットワークがなくても計測と端末内への保存ができます。通知は送りません。</p>
+        <p class="note">ホーム画面への追加方法はブラウザによって異なります。外部への共有や広告の表示には、ネットワークが必要です。この紹介ページの明るさは、端末の設定に合わせます。</p>
+      </section>
+
+      <section class="content-section" aria-labelledby="privacy-title">
+        <h2 id="privacy-title">保存とプライバシーについて</h2>
+        <p>アプリは、保存済み記録の一覧や入力内容を送信しません。利用状況の計測にはVercel Analyticsを使用します。有効な環境では、モードや計測時間などを送信します。ブラウザの追跡拒否設定を尊重します。</p>
+        <p>この紹介ページの末尾には、忍者AdMaxの広告を掲載しています。広告の表示では外部の広告サービスへ通信し、広告提供元がCookieなどを使用する場合があります。</p>
+        <p>タイマーや記録の画面は、広告なしで使えます。アプリの実装から、保存済み記録を広告へ渡す処理はありません。ただし、広告プログラムは同じサイトの保存領域へアクセスできるため、広告提供元への信頼が必要です。</p>
+      </section>
+
+      <aside class="ad-section" aria-labelledby="ad-title">
+        <p id="ad-title" class="ad-label">広告</p>
+        <!-- admax -->
+        <div class="admax-ads" data-admax-id="381710d9f790ddff815d822fe92bd8af" style="display:inline-block;width:300px;height:250px;"></div>
+        <script type="text/javascript">(admaxads = window.admaxads || []).push({admax_id: "381710d9f790ddff815d822fe92bd8af",type: "banner"});</script>
+        <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async></script>
+        <!-- admax -->
+      </aside>
+
+      <div class="return-section">
+        <a class="return-link" href="/">タイマーに戻る</a>
+        <p>何もしない。それも、ひとつの過ごし方。</p>
+      </div>
+    </main>
+
+    <footer class="site-footer">LESS, BUT A LITTLE BETTER.</footer>
+  </body>
+</html>

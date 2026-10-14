@@ -419,6 +419,21 @@ svg {
 .site-footer button:hover {
   color: var(--accent);
 }
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.footer-guide-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: inherit;
+  text-underline-offset: 3px;
+}
+.footer-guide-link:hover {
+  color: var(--accent);
+}
 .footer-center {
   font-size: 8px;
   letter-spacing: 0.16em;

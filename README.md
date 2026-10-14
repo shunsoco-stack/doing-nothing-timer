@@ -10,7 +10,7 @@
 
 - アプリURL（本番公開・実ブラウザー確認済み）：[doing-nothing-timer.vercel.app](https://doing-nothing-timer.vercel.app)
 - GitHub（ソース公開済み）：[shunsoco-stack/doing-nothing-timer](https://github.com/shunsoco-stack/doing-nothing-timer)
-- `lint` / `typecheck` / `build`：成功。Vitestは5ファイル・203件すべて成功。
+- 既存機能公開時の `lint` / `typecheck` / `build`：成功。Vitestは5ファイル・203件すべて成功。
 - Secret Scan：成功。確認時点で45テキストファイルを検査し、6バイナリ／大容量ファイルを除外。`npm audit` の検出脆弱性は0件。
 - GitHub Secret Scanning / Push Protection：有効化済み。確認時点の未解決Secret Scanningアラートは0件。
 - 実装コミット `67e0753` の [GitHub Actions](https://github.com/shunsoco-stack/doing-nothing-timer/actions/runs/33070513976)：lint・型検査・203件のテスト・Secret Scan・ビルドが成功。
@@ -20,7 +20,9 @@
 - 公開環境の幅320px／390px、ライト／ダーク表示、再読込後の計測継続・保存を確認済み。
 - Vercel Analytics：SDK実装済み。基本Web Analyticsの有効化は所有者本人の確認操作待ちです。加えて、Hobbyプランではカスタムイベントを集計できません。[Analyticsの制約](#analytics)を参照してください。
 
-検証対象と証跡は [docs/verification.md](docs/verification.md) にまとめています。残る制約はAnalyticsの有効化・プラン制限と、任意のGit自動デプロイ連携です。現在はVercel CLIで更新公開します。下記の「公開・更新方法」を参照してください。
+公開版の検証対象と証跡は [docs/verification.md](docs/verification.md) にまとめています。公開版で残る制約はAnalyticsの有効化・プラン制限と、任意のGit自動デプロイ連携です。現在はVercel CLIで更新公開します。下記の「公開・更新方法」を参照してください。
+
+紹介ページのAdMaxは、同じサイトの `/about.html` だけで広告通信を許可する構成です。追加のCSP sandboxは採用しません。この構成のlint・型検査・6ファイル206件のテスト・Secret Scan・ビルドは成功しています。保存済み実ローダーと合成応答を使ったローカル検証でも、広告iframeへの文書書込とバナー描画を確認しました。広告の実配信と審査・掲載確認は、コードの検証と別に確認します。
 
 <!-- RELEASE_STATUS_END -->
 
@@ -151,6 +153,16 @@ npx vercel deploy --prod
 Git連携を後から有効にすることは任意です。現在のGitHub Actionsは品質検証用で、Vercelへのデプロイ処理は含みません。
 
 ## 保存・プライバシー・オフライン
+
+### 紹介ページの広告
+
+`/about.html` は使い方を説明する独立した静的ページで、末尾に忍者AdMaxの300×250広告枠を1つ設置しています。タイマー・記録・結果の画面には広告タグを読み込みません。紹介ページとタイマーは通常のリンクで文書ごと切り替えます。
+
+広告の配信先は変動するため、正確なパス `/about.html` だけCSPの通信先制限を解除します。タイマー本体とService WorkerのCSPは維持します。追加のsandboxは採用しません。紹介ページの広告は外部の広告サービスへ通信し、広告提供元がCookieなどを使用する場合があります。
+
+アプリの実装から保存済み記録を広告へ渡す処理はありません。ただし、通常の第三者スクリプトと同様に、広告プログラムは同一オリジンのlocalStorageへアクセスできるため、広告提供元への信頼が必要です。これは一般的なアクセス可能性の説明で、記録の読み取りや漏えいが確認されたという意味ではありません。
+
+広告枠の登録・審査状態と実配信は別です。実タグを組み込み、保存済み実ローダーと合成応答によるバナー描画を確認しています。合成応答による成功だけでは実配信や審査成功を確認できません。`public/ads.txt` はAdMax管理画面から渡された全文を保持し、GoogleなどのRESELLER行もAdMaxの配信経路として残します。
 
 記録は使用中のブラウザーに保存されます。アカウント、クラウドへの記録同期、端末間の共有データベースはありません。ブラウザーの保存データ削除、プライベートモード、保存容量などの制限により記録を失う場合があるため、必要な記録はCSVで保管してください。CSVには記録の日時と時間が含まれるため、他人へ渡す際は内容を確認してください。
 

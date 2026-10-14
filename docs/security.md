@@ -17,7 +17,9 @@
 - iframe埋め込みを禁止する `X-Frame-Options: DENY` と CSP `frame-ancestors 'none'`
 - 別オリジンへの参照元情報を制限する `Referrer-Policy: strict-origin-when-cross-origin`
 - カメラ・マイク・位置情報を無効化し、同一オリジンの結果共有を許可する `Permissions-Policy`
-- 原則同一オリジンに制限した Content Security Policy。Vercel Analytics の必要な配信元を許可しています。
+- タイマー本体は原則同一オリジンに制限した Content Security Policy。Vercel Analytics の必要な配信元を許可しています。
+
+広告を掲載する静的紹介ページ `/about.html` だけは、配信先が変動する忍者AdMaxの通信を許可するため、CSPの通信先制限を解除します。追加のsandboxは採用しません。アプリの実装から保存済み記録を広告へ渡す処理はありませんが、広告の第三者スクリプトは同一オリジンのlocalStorageへアクセスできるため、広告提供元への信頼が必要です。広告は外部通信を行い、Cookieなどを使用する場合があります。タイマー本体とService WorkerのCSPは維持します。
 
 静的なNext.jsの初期描画とオフライン表示に合わせ、CSPではインラインスクリプト・インラインスタイルを許可しています。nonceを使った厳格なCSPではなく、XSSを完全に防ぐものではありません。`unsafe-eval` は開発時だけ許可しています。HTMLに未検証の文字列を直接挿入しない実装を維持してください。
 

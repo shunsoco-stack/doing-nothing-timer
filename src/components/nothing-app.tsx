@@ -505,10 +505,13 @@ export function NothingApp() {
             記録は、この端末にだけ。
           </span>
           <span className="footer-center">LESS, BUT A LITTLE BETTER.</span>
-          <button onClick={() => setAboutOpen(true)}>
-            このアプリについて
-            <ArrowRight size={12} />
-          </button>
+          <div className="footer-links">
+            <button onClick={() => setAboutOpen(true)}>
+              このアプリについて
+              <ArrowRight size={12} />
+            </button>
+            <a className="footer-guide-link" href="/about.html">使い方</a>
+          </div>
         </footer>
       )}
       <div
