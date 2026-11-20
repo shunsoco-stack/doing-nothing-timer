@@ -39,6 +39,7 @@ import { trackEvent } from "@/lib/telemetry";
 import { Dialog } from "./dialog";
 import { ModeDialog } from "./mode-dialog";
 import { RecordsPanel } from "./records-panel";
+import { NinjaAdMaxSlot } from "./ninja-admax-slot";
 
 const MESSAGES = [
   "いま、世界でいちばん静かな大仕事。",
@@ -499,20 +500,24 @@ export function NothingApp() {
       </main>
 
       {!quiet && (
-        <footer className="site-footer">
-          <span>
-            <LockKeyhole size={12} strokeWidth={1.6} />
-            記録は、この端末にだけ。
-          </span>
-          <span className="footer-center">LESS, BUT A LITTLE BETTER.</span>
-          <div className="footer-links">
-            <button onClick={() => setAboutOpen(true)}>
-              このアプリについて
-              <ArrowRight size={12} />
-            </button>
-            <a className="footer-guide-link" href="/about.html">使い方</a>
-          </div>
-        </footer>
+        <>
+          <NinjaAdMaxSlot />
+          <footer className="site-footer">
+            <span>
+              <LockKeyhole size={12} strokeWidth={1.6} />
+              記録は、この端末にだけ。
+            </span>
+            <span className="footer-center">LESS, BUT A LITTLE BETTER.</span>
+            <div className="footer-links">
+              <button onClick={() => setAboutOpen(true)}>
+                このアプリについて
+                <ArrowRight size={12} />
+              </button>
+              <a className="footer-guide-link" href="/about.html">使い方</a>
+              <a className="footer-guide-link" href="/privacy">プライバシー</a>
+            </div>
+          </footer>
+        </>
       )}
       <div
         className={`toast ${toast ? "visible" : ""}`}
@@ -568,6 +573,11 @@ export function NothingApp() {
             <p>
               利用状況の計測にはVercel
               Analyticsを使用します。有効な環境では、モードや計測時間などを送信します。ブラウザの追跡拒否設定を尊重します。
+            </p>
+            <p>
+              本番のトップページ末尾では、忍者ツールズ株式会社の広告配信サービス「忍者AdMax」を利用しています。計測中は広告を読み込みません。詳細は
+              <a href="/privacy">プライバシーポリシー</a>
+              をご覧ください。
             </p>
           </div>
           <div className="about-section">

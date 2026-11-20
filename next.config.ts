@@ -4,11 +4,12 @@ import { resolve } from "node:path";
 const isDevelopment = process.env.NODE_ENV === "development";
 const contentSecurityPolicy = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com${isDevelopment ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com https://adm.shinobi.jp https://*.shinobi.jp https://*.cnobi.jp${isDevelopment ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  "img-src 'self' data: blob: https://*.shinobi.jp https://*.cnobi.jp",
   "font-src 'self'",
-  `connect-src 'self' https://vitals.vercel-insights.com${isDevelopment ? " ws: wss:" : ""}`,
+  `connect-src 'self' https://vitals.vercel-insights.com https://*.shinobi.jp https://*.cnobi.jp${isDevelopment ? " ws: wss:" : ""}`,
+  "frame-src https://*.shinobi.jp https://*.cnobi.jp",
   "worker-src 'self'",
   "manifest-src 'self'",
   "object-src 'none'",
@@ -17,8 +18,8 @@ const contentSecurityPolicy = [
   "frame-ancestors 'none'",
 ].join("; ");
 
-// AdMax rotates its delivery domains. Keep that network exception on the
-// static guide only; the timer and Service Worker retain their existing CSP.
+// The intro guide keeps a looser policy because it is a static document.
+// The Service Worker CSP stays unchanged.
 const introductionContentSecurityPolicy = [
   "object-src 'none'",
   "base-uri 'self'",
